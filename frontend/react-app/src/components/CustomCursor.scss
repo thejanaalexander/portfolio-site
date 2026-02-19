@@ -1,0 +1,27 @@
+@import '../styles/variables';
+
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $accent-secondary;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    background-color: transparent;
+}
+
+// Hide default cursor on body if desired
+// body {
+//     cursor: none; // Uncomment this to hide the default cursor
+// }
+
+/* Fallback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .custom-cursor {
+        display: none;
+    }
+}

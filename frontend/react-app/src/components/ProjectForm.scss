@@ -1,0 +1,69 @@
+@use '../styles/variables' as *;
+
+.project-form {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+
+    h3 {
+        color: $text-white;
+        font-family: $font-oswald;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+
+        label {
+            display: block;
+            color: $text-muted;
+            margin-bottom: 0.5rem;
+            font-family: $font-general;
+            font-size: 0.9rem;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: $text-white;
+            font-family: $font-general;
+
+            &:focus {
+                outline: none;
+                border-color: $accent-primary;
+            }
+        }
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background: $accent-primary;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: $font-oswald;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        &:hover {
+            background: lighten($accent-primary, 5%);
+        }
+
+        &:disabled {
+            background: $text-muted;
+            cursor: not-allowed;
+        }
+    }
+}

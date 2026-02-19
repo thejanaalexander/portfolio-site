@@ -1,0 +1,284 @@
+@import '../styles/variables';
+
+.about-section {
+    min-height: 100vh;
+    background-color: #040618;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 100px 0;
+    scroll-snap-align: start;
+    overflow: hidden; // Ensure no spillover
+
+    // Default Variables
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+
+    // Spotlight Layer
+    .spotlight-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url('/images/about-bg-texture.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4; // Subtle visibility inside the light
+        z-index: 0; // Behind content
+
+        // The Magic (Flashlight Effect)
+        mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y),
+                black 0%,
+                transparent 100%);
+        -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y),
+                black 0%,
+                transparent 100%);
+
+        pointer-events: none; // Don't block interactions
+    }
+
+    .about-container {
+        @include responsive-container;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr; // Title gets slightly more space
+        gap: 6rem;
+        align-items: center;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 4rem;
+        }
+
+        // Left Column: Title & Slogan
+        .about-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media (max-width: 992px) {
+                order: 1; // Title top on mobile
+                align-items: center;
+            }
+
+            .main-title {
+                font-family: $font-oswald;
+                font-size: 7.5rem; // Massive font
+                line-height: 0.9;
+                font-weight: 700;
+                color: $text-white;
+                text-transform: uppercase;
+                margin: 0 0 2rem 0;
+
+                @media (max-width: 1400px) {
+                    font-size: 6rem;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 4rem;
+                }
+
+                .gradient-text {
+                    background: linear-gradient(90deg, $accent-primary, $accent-secondary);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    color: transparent;
+                }
+            }
+
+            .slogan {
+                font-family: $font-general;
+                color: $hover-color; // Cyan
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                font-weight: 500;
+                margin: 0;
+            }
+        }
+
+        // Right Column: Text & CTA
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2.5rem;
+            align-items: flex-end; // Push content to the right edge
+
+            @media (max-width: 992px) {
+                align-items: center;
+                order: 2;
+                padding: 0 1rem;
+            }
+
+            .text-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-end; // Ensure internal text blocks align right
+            }
+
+            .bio-text {
+                font-family: $font-general;
+                color: $text-white;
+                font-size: 1rem;
+                line-height: 1.7;
+                max-width: 500px;
+                opacity: 0.9;
+
+                // Keep justify as per previous critical request, but block is now right-aligned
+                text-align: justify;
+
+                @media (max-width: 992px) {
+                    text-align: center;
+                }
+            }
+
+            .cta-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                width: 100%; // Ensure wrapper takes width to align right properly if needed?
+                // Actually if align-items is flex-end, this wrapper will stick to right.
+                // But we want the "See More" to be on the right or left of the text block?
+                // User arrow points to the whole block moving right.
+                // Usually CTA is aligned with text start (left) or end (right). 
+                // Let's keep it compact with the text block. 
+                // If .text-content is flex-end, bio-text is flex-end.
+                justify-content: flex-start; // within the max-width 500px block? No.
+
+                // Let's align CTA with the *left* edge of the justified text for clean lines?
+                // Or right edge?
+                // Standard design: Aligned left of the text block.
+                // Since `align-items: flex-end` moves the whole 500px block to the right, 
+                // the CTA should probably align with that block.
+
+                // Let's constrain width to match text
+                max-width: 500px;
+                width: 100%;
+                justify-content: flex-start; // Keep CTA at start of the text block
+
+                @media (max-width: 992px) {
+                    justify-content: center;
+                }
+
+                .cta-line {
+                    height: 1px;
+                    width: 80px;
+                    background-color: $text-white;
+                    opacity: 0.8;
+                }
+
+                .cta-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-family: $font-general;
+                    color: $text-white;
+                    font-size: 1rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    font-weight: 500;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: $accent-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    // Skills Marquee Styles
+    .skills-marquee {
+        position: relative; // Changed from absolute to flow within container
+        width: 100%;
+        grid-column: 1 / -1; // Span full width of the grid container
+        margin-top: 4rem; // Separation from content
+
+        overflow: hidden;
+        z-index: 2;
+        pointer-events: none;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
+        .marquee-track {
+            display: flex;
+            gap: 3rem;
+            white-space: nowrap;
+            // Animation for seamless left-to-right loop
+            // We need 2 sets of items to loop perfectly. 
+            // Logic: Start at -50% (showing 2nd half) and move to 0% (showing 1st half)
+            // Assuming the track width is large enough.
+            width: max-content;
+            animation: scroll-left-to-right 40s linear infinite; // Slowed down from 20s
+
+            &:hover {
+                animation-play-state: paused;
+            }
+
+            .skill-item {
+                font-family: $font-oswald;
+                font-size: 1.5rem;
+                font-weight: 500;
+                color: rgba($text-white, 0.4); // Subtle default
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                gap: 3rem;
+                transition: color 0.3s ease;
+
+                .separator {
+                    color: $accent-primary;
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    color: $text-white; // Highlight on hover
+                    text-shadow: 0 0 10px rgba($accent-primary, 0.5);
+                }
+            }
+        }
+    }
+}
+
+// Compact variant — used on standalone About page (no title)
+.about-section--compact {
+    .about-container {
+        grid-template-columns: 1fr; // Single column, no title
+        gap: 2rem;
+        justify-items: center;
+    }
+
+    .about-right {
+        align-items: center !important; // Center the text block
+        max-width: 800px;
+
+        .text-content {
+            align-items: center !important;
+        }
+
+        .bio-text {
+            max-width: 700px !important;
+            text-align: center !important;
+            font-size: 1.05rem;
+        }
+
+        .cta-wrapper {
+            display: none !important; // Hide SEE MORE on standalone About page
+        }
+    }
+
+    .skills-marquee {
+        display: none; // Hide marquee on standalone About page
+    }
+}
+
+@keyframes scroll-left-to-right {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}

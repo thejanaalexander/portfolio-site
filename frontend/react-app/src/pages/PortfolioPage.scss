@@ -1,0 +1,281 @@
+@import '../styles/variables';
+
+.portfolio-page {
+    background-color: $bg-primary;
+    color: $text-white;
+    min-height: 100vh;
+    padding-top: 120px; // Clear fixed header
+    padding-bottom: 5rem;
+    font-family: $font-general;
+
+    /* 1. Header Area */
+    .portfolio-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        padding: 0 2rem;
+
+        h2 {
+            font-family: $font-oswald;
+            font-size: 5rem;
+            text-transform: uppercase;
+            color: $text-white;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            z-index: 10;
+            text-align: center;
+
+            .highlight {
+                background: linear-gradient(to right, #d628d9, #9d28d9);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                display: inline-block;
+                -webkit-text-stroke: 0;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 3rem;
+            }
+        }
+
+        .subtitle {
+            font-family: $font-general;
+            font-size: 1.1rem;
+            color: $text-white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 900px;
+            white-space: nowrap;
+            z-index: 10;
+
+            &::before,
+            &::after {
+                content: '';
+                height: 2px;
+                flex-grow: 1;
+                background: $accent-primary;
+                border-radius: 2px;
+            }
+
+            &::before {
+                background: linear-gradient(to left, $accent-primary 0%, transparent 100%);
+            }
+
+            &::after {
+                background: linear-gradient(to right, $accent-primary 0%, transparent 100%);
+            }
+
+            @media (max-width: 768px) {
+                font-size: 0.9rem;
+                white-space: normal;
+                gap: 1rem;
+                max-width: 90%;
+                flex-direction: column;
+
+                &::before,
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    /* 2. Main Layout */
+    .portfolio-content {
+        @include responsive-container;
+        display: flex;
+        gap: 3rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* 3. Left Sidebar (Sticky) */
+        .portfolio-sidebar {
+            width: 25%; // 20-25%
+            flex-shrink: 0;
+
+            @media (max-width: 768px) {
+                width: 100%;
+                position: static; // Not sticky on mobile
+            }
+
+            .filter-menu {
+                position: sticky;
+                top: 120px; // Offset from top
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem; // Increased gap
+
+                @media (max-width: 768px) {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    position: static;
+                    gap: 1rem;
+                }
+
+                .filter-btn {
+                    padding: 1rem 1.5rem;
+                    background: transparent;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    color: rgba(255, 255, 255, 0.6);
+                    cursor: pointer;
+                    text-align: left;
+                    border-radius: 8px; // Rounded corners
+                    font-family: $font-general;
+                    font-size: 1rem;
+                    text-transform: uppercase;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;
+                    width: 100%; // Fill width
+
+                    @media (max-width: 768px) {
+                        width: auto;
+                        text-align: center;
+                        flex: 1 1 auto; // Grow to fit
+                    }
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.05);
+                        color: $text-white;
+                        border-color: rgba(255, 255, 255, 0.3);
+                    }
+
+                    &.active {
+                        background: linear-gradient(to right, #d628d9, #6929f2); // Gradient to match image
+                        color: $text-white;
+                        border-color: transparent; // No border needed for gradient
+                        font-weight: 700;
+                        box-shadow: 0 4px 15px rgba($accent-primary, 0.4);
+
+                        // Add a subtle bottom highlight/line if needed, or just keep solid
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 3px;
+                            background: #d628d9; // Pink bottom line to match image
+                        }
+                    }
+                }
+            }
+        }
+
+        /* 4. Right Area (Project Grid) */
+        .portfolio-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); // 2 columns desktop
+            gap: 2rem;
+            align-content: start; // Prevent stretching
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr; // 1 column mobile
+            }
+
+            /* 5. Project Card Design */
+            .project-card {
+                background: transparent; // Cleaner look
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+                cursor: pointer;
+
+                &:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                    border-color: $accent-primary;
+                }
+
+                .image-wrapper {
+                    width: 100%;
+                    aspect-ratio: 4/3; // 4:3 Aspect ratio
+                    overflow: hidden;
+                    position: relative;
+                    border-radius: 12px 12px 0 0; // Top rounding
+                    background: #111; // Placeholder dark bg
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+                        opacity: 0.8; // Slightly faded
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                    }
+                }
+
+                &:hover .image-wrapper {
+                    img {
+                        transform: scale(1.1);
+                        opacity: 1;
+                    }
+
+                    &::after {
+                        opacity: 1;
+                    }
+                }
+
+                .project-info {
+                    padding: 1.5rem 2rem; // Increased indent to shift text further right
+
+                    h3 {
+                        font-family: $font-oswald;
+                        font-size: 2rem;
+                        margin: 0 0 0.5rem 0;
+                        color: $text-white; // Fully visible white
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        transition: color 0.3s ease;
+                        line-height: 1;
+                    }
+
+                    p {
+                        font-family: $font-general;
+                        font-size: 0.9rem;
+                        color: $text-muted; // Visible grey for contrast
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                        margin: 0;
+                        transition: color 0.3s ease;
+                    }
+                }
+
+                &:hover .project-info {
+                    h3 {
+                        color: $accent-primary; // Purple on hover
+                    }
+
+                    p {
+                        color: $text-white; // White on hover
+                    }
+                }
+            }
+        }
+    }
+}

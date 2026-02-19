@@ -1,0 +1,143 @@
+@use '../styles/variables' as *;
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.skills-section {
+    padding: 6rem 0;
+    min-height: 100vh; // Full screen for scroll snap
+    display: flex;
+    align-items: center; // Vertically center content
+    background-color: $bg-primary;
+    position: relative;
+    overflow: hidden;
+    color: $text-white;
+
+    .container {
+        max-width: $container-width;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        width: 100%;
+
+        @media (max-width: 968px) {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+    }
+
+    // --- Left Side: Text Content ---
+    .skills-content {
+        h2 {
+            font-family: $font-oswald;
+            font-size: 5rem; // Matched to Testimonials
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            color: $text-white;
+
+            .highlight {
+                background: linear-gradient(to right, $accent-primary, $accent-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                display: inline-block;
+                -webkit-text-stroke: 0;
+            }
+        }
+
+        p {
+            font-family: $font-general;
+            font-size: 1.1rem;
+            color: $text-muted;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+
+            @media (max-width: 968px) {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+
+    }
+
+    // --- Right Side: Skills Grid ---
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        justify-self: end; // Align to the right
+        width: fit-content; // Shrink wrap to content
+
+        @media (max-width: 600px) {
+            grid-template-columns: 1fr;
+        }
+
+        .skill-card {
+            background: transparent;
+            border: none;
+            padding: 1rem; // Minimal padding for spacing
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+
+            // Animation
+            animation: float 4s ease-in-out infinite;
+
+            // Stagger animation for even/odd cards
+            &:nth-child(even) {
+                animation-duration: 5s;
+                animation-delay: 1s;
+            }
+
+            &:hover {
+                transform: translateY(-5px);
+
+                .icon {
+                    color: rgb(190, 55, 211);
+                    transform: scale(1.2);
+                    filter: drop-shadow(0 0 10px rgba(190, 55, 211, 0.4));
+                }
+
+                h4 {
+                    color: rgb(190, 55, 211);
+                }
+            }
+
+            .icon {
+                font-size: 3rem;
+                color: $accent-primary;
+                margin-bottom: 0.2rem; // Reduced to 0.2rem
+                transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+            }
+
+            h4 {
+                font-family: $font-general;
+                font-size: 1.1rem;
+                margin-bottom: 0;
+                color: $text-white;
+                transition: color 0.3s ease;
+            }
+        }
+    }
+}

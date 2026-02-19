@@ -1,0 +1,418 @@
+@use "sass:color";
+@use '../styles/variables' as *;
+
+.admin-page {
+    padding: 120px 20px 60px;
+    background: $bg-primary;
+    min-height: 100vh;
+    color: $text-white;
+
+    .admin-container {
+        max-width: $container-width;
+        margin: 0 auto;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+
+        .logout-btn {
+            padding: 0.8rem 1.5rem;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: $font-oswald;
+            transition: background 0.3s ease;
+
+            &:hover {
+                background: #444;
+            }
+        }
+    }
+
+    .tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+
+        button {
+            background: transparent;
+            color: $text-muted;
+            border: none;
+            font-family: $font-oswald;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+
+            &.active {
+                color: $accent-primary;
+                border-bottom: 2px solid $accent-primary;
+            }
+
+            &:hover {
+                color: $text-white;
+            }
+        }
+    }
+
+    .controls {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: flex-end;
+
+        .add-btn {
+            background: $accent-primary;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-family: $font-oswald;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            &:hover {
+                transform: translateY(-2px);
+                background: color.adjust($accent-primary, $lightness: 5%);
+            }
+        }
+    }
+
+    .grid-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            .thumb-wrapper {
+                position: relative;
+
+                .thumb {
+                    height: 200px;
+                    width: 100%;
+                    object-fit: cover;
+                    background: #000;
+                    display: block;
+                }
+
+                .fav-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(0, 0, 0, 0.6);
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                    color: rgba(255, 255, 255, 0.5);
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(4px);
+                    z-index: 5;
+
+                    &:hover {
+                        background: rgba(0, 0, 0, 0.8);
+                        color: #ff4081;
+                        border-color: #ff4081;
+                    }
+
+                    &.active {
+                        color: #ff4081;
+                        border-color: #ff4081;
+                        background: rgba(#ff4081, 0.15);
+                        box-shadow: 0 0 12px rgba(#ff4081, 0.3);
+                    }
+                }
+            }
+
+            .thumb {
+                height: 200px;
+                width: 100%;
+                object-fit: cover;
+                background: #000;
+
+                &.circle {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    margin: 1.5rem auto 0;
+                    border: 2px solid $accent-primary;
+                }
+            }
+
+            .details {
+                padding: 1.5rem;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+
+                h3 {
+                    margin: 0 0 0.5rem 0;
+                    font-family: $font-oswald;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+
+                p {
+                    color: $text-muted;
+                    font-size: 0.9rem;
+                    margin-bottom: 0.5rem;
+                    text-align: center;
+
+                    &.role {
+                        color: $accent-secondary;
+                        font-weight: bold;
+                    }
+
+                    &.rating {
+                        color: #ffc107;
+                        margin-bottom: 1rem;
+                    }
+                }
+
+                .actions {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: auto;
+
+                    button {
+                        flex: 1;
+                        padding: 0.6rem;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-family: $font-general;
+                        font-weight: 600;
+                        transition: background 0.2s ease;
+
+                        &.edit-btn {
+                            background: rgba(255, 255, 255, 0.1);
+                            color: $text-white;
+
+                            &:hover {
+                                background: rgba(255, 255, 255, 0.2);
+                            }
+                        }
+
+                        &.delete-btn {
+                            background: rgba(255, 0, 0, 0.2);
+                            color: #ff6b6b;
+
+                            &:hover {
+                                background: rgba(255, 0, 0, 0.3);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // CV Manager Styles
+    .cv-manager {
+        max-width: 600px;
+
+        h3 {
+            font-family: $font-oswald;
+            margin-bottom: 1rem;
+            color: $text-white;
+            letter-spacing: 1px;
+        }
+
+        .cv-upload-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+
+            .cv-file-input {
+                flex: 1;
+                min-width: 200px;
+                padding: 0.7rem;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 8px;
+                color: $text-white;
+                font-family: $font-general;
+                transition: border-color 0.3s ease;
+
+                &:hover {
+                    border-color: $accent-primary;
+                }
+
+                &::file-selector-button {
+                    background: linear-gradient(135deg, $accent-primary, color.adjust($accent-primary, $lightness: -10%));
+                    color: white;
+                    border: none;
+                    padding: 0.5rem 1rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-family: $font-oswald;
+                    margin-right: 1rem;
+                    letter-spacing: 0.5px;
+                    text-transform: uppercase;
+                    font-size: 0.8rem;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        filter: brightness(1.2);
+                    }
+                }
+            }
+
+            .add-btn {
+                background: linear-gradient(135deg, $accent-primary, color.adjust($accent-primary, $lightness: -8%));
+                color: white;
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 8px;
+                font-family: $font-oswald;
+                cursor: pointer;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba($accent-primary, 0.3);
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba($accent-primary, 0.45);
+                    filter: brightness(1.1);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    transform: none;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .cv-current {
+            margin-top: 2.5rem;
+        }
+
+        .cv-info-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            transition: border-color 0.3s ease;
+
+            &:hover {
+                border-color: rgba($accent-primary, 0.3);
+            }
+
+            .cv-details {
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+
+                .cv-filename {
+                    font-size: 1.15rem;
+                    font-weight: 600;
+                    font-family: $font-oswald;
+                    letter-spacing: 0.5px;
+                }
+
+                .cv-date,
+                .cv-size {
+                    font-size: 0.85rem;
+                    color: $text-muted;
+                }
+            }
+
+            .cv-actions {
+                display: flex;
+                gap: 0.75rem;
+
+                .edit-btn {
+                    background: rgba(255, 255, 255, 0.08);
+                    color: $accent-secondary;
+                    border: 1px solid rgba($accent-secondary, 0.3);
+                    padding: 0.6rem 1.3rem;
+                    border-radius: 8px;
+                    font-family: $font-oswald;
+                    font-size: 0.85rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    display: inline-flex;
+                    align-items: center;
+
+                    &:hover {
+                        background: rgba($accent-secondary, 0.15);
+                        border-color: $accent-secondary;
+                        box-shadow: 0 0 12px rgba($accent-secondary, 0.2);
+                        transform: translateY(-1px);
+                    }
+                }
+
+                .delete-btn {
+                    background: rgba(255, 60, 60, 0.08);
+                    color: #ff6b6b;
+                    border: 1px solid rgba(255, 60, 60, 0.3);
+                    padding: 0.6rem 1.3rem;
+                    border-radius: 8px;
+                    font-family: $font-oswald;
+                    font-size: 0.85rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        background: rgba(255, 60, 60, 0.2);
+                        border-color: #ff6b6b;
+                        box-shadow: 0 0 12px rgba(255, 60, 60, 0.2);
+                        transform: translateY(-1px);
+                    }
+                }
+            }
+        }
+
+        .cv-preview-frame {
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+
+            iframe {
+                border: none;
+                background: #fff;
+                border-radius: 12px;
+            }
+        }
+    }
+}

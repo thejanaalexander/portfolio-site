@@ -1,0 +1,35 @@
+// Core Colors
+$bg-primary: #02030d;
+$bg-secondary: #0a0c20; // Slightly lighter than primary
+$bg-scrolled: #040618;
+
+// Accents
+$accent-primary: #6929f2;
+$accent-secondary: #c038d3;
+$hover-color: #0ac0df;
+$active-link: #6427e8;
+
+// Text
+$text-white: #ffffff;
+$text-muted: #a0a0a0;
+
+// Layout
+$container-width: 1400px;
+
+// Fonts
+$font-oswald: 'Oswald', sans-serif;
+$font-general: 'General Sans', sans-serif;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin responsive-container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 20px;
+}

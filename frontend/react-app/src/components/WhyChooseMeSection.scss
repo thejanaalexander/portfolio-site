@@ -1,0 +1,170 @@
+@import '../styles/variables';
+
+.why-choose-me-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(to bottom, #02030d 0%, #0a0514 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+
+    .choose-container {
+        @include responsive-container;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .header-group {
+        text-align: center;
+        margin-bottom: 5rem;
+
+        .section-title {
+            font-family: $font-oswald;
+            font-size: 5rem;
+            color: $text-white;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+
+            .highlight,
+            .highlight-2 {
+                background: linear-gradient(to right, #d628d9, #9d28d9); // Pink to Purple gradient
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: inline-block; // Ensure gradient applies correctly
+            }
+
+            @media (max-width: 768px) {
+                font-size: 3rem;
+            }
+        }
+
+        .subtitle {
+            font-family: $font-general;
+            font-size: 1.1rem;
+            color: $text-white; // Brighter text as per image
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px; // Ensure lines stretch
+            margin: 0 auto;
+            white-space: nowrap; // Keep text on one line if possible
+
+            &::before,
+            &::after {
+                content: '';
+                height: 2px;
+                flex-grow: 1;
+                background: #6929f2; // Fallback
+                border-radius: 2px;
+            }
+
+            &::before {
+                background: linear-gradient(to left, #6929f2 0%, transparent 100%);
+            }
+
+            &::after {
+                background: linear-gradient(to right, #6929f2 0%, transparent 100%);
+            }
+
+            @media (max-width: 768px) {
+                font-size: 0.9rem;
+                white-space: normal; // Allow wrap on mobile
+                gap: 1rem;
+
+                &::before,
+                &::after {
+                    display: none; // Hide lines or adjust depending on mobile design preference? 
+                    // Usually better to keep but smaller, or stack? 
+                    // Let's hide lines for very small screens or make them small width blocks.
+                    // Let's keep them but minimal.
+                    max-width: 30px;
+                }
+            }
+        }
+    }
+
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        width: 100%;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
+        .choose-card {
+            position: relative;
+            background: rgba(10, 10, 20, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            border: 2px solid rgba(176, 38, 255, 0.3); // Purple border
+            box-shadow: 0 0 15px rgba(176, 38, 255, 0.1);
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+
+            &:hover {
+                border-color: $accent-secondary; // Cyan on hover
+                box-shadow: 0 0 25px rgba(10, 192, 223, 0.3);
+
+                .card-image img {
+                    transform: scale(1.1);
+                }
+            }
+
+            .card-image {
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .card-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 10%, transparent 60%);
+                }
+            }
+
+            .card-content {
+                position: absolute;
+                bottom: 2rem;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 0 1rem;
+                z-index: 2;
+
+                h3 {
+                    font-family: $font-oswald;
+                    font-size: 1.4rem;
+                    color: $text-white;
+                    text-transform: uppercase;
+                    margin: 0;
+                    line-height: 1.2;
+                    text-shadow: 0 2px 4px black;
+
+                    &:last-child {
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+}

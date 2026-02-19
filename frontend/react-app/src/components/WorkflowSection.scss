@@ -1,0 +1,154 @@
+@use '../styles/variables' as *;
+
+.workflow-section {
+    padding: 6rem 0;
+    min-height: 100vh;
+    background-color: $bg-primary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    h2 {
+        font-family: $font-oswald;
+        font-size: 4rem;
+        text-transform: uppercase;
+        color: $text-white;
+        margin-bottom: 4rem;
+        text-align: center;
+
+        .highlight {
+            background: linear-gradient(to right, $accent-primary, $accent-secondary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            display: inline-block;
+        }
+    }
+
+    .timeline-container {
+        width: 100%;
+        max-width: $container-width;
+        padding: 0 2rem;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; // Align top of items
+
+        // The horizontal connecting line
+        &::before {
+            content: '';
+            position: absolute;
+            top: 40px; // Center of the icons
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: rgba($text-muted, 0.2); // Base line
+            z-index: 1;
+        }
+
+        // Active/Drawing line style can be handled by JS/inline styles or just simple CSS animation
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 4rem;
+
+            &::before {
+                top: 0;
+                bottom: 0;
+                left: 29px; // Center of 60px icons (approx)
+                width: 2px;
+                height: auto;
+                right: auto;
+            }
+        }
+    }
+
+    .workflow-step {
+        position: relative;
+        z-index: 2;
+        width: 100%; // For flex basis
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 1rem;
+
+        @media (max-width: 768px) {
+            flex-direction: row;
+            text-align: left;
+            margin-bottom: 3rem;
+            align-items: flex-start; // Top align text with icon
+        }
+
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background: $bg-primary; // Hide line behind
+            border: 2px solid rgba($accent-primary, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: $accent-primary;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba($accent-primary, 0.2);
+            position: relative; // On top of line
+            z-index: 2;
+
+            .icon {
+                filter: drop-shadow(0 0 5px rgba($accent-primary, 0.4));
+            }
+
+            &:hover {
+                transform: scale(1.1);
+                border-color: $accent-secondary;
+                color: $accent-secondary;
+                box-shadow: 0 0 25px rgba($accent-secondary, 0.4);
+
+                .icon {
+                    filter: drop-shadow(0 0 8px rgba($accent-secondary, 0.6));
+                }
+            }
+
+            @media (max-width: 768px) {
+                position: absolute;
+                left: -3rem; // Offset to align with parent pad
+                top: 0;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        .step-content {
+            margin-top: 1rem; // Add spacing if needed
+
+            @media (max-width: 768px) {
+                margin-top: 0;
+                padding-left: 1.5rem; // Space from absolute icon
+            }
+
+            h3 {
+                font-family: $font-oswald;
+                font-size: 1.3rem;
+                color: $text-white;
+                margin-bottom: 0.5rem;
+                letter-spacing: 1px;
+            }
+
+            p {
+                font-family: $font-general;
+                font-size: 0.95rem;
+                color: $text-muted;
+                line-height: 1.5;
+            }
+        }
+    }
+}

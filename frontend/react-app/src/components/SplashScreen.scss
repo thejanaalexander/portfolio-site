@@ -1,0 +1,158 @@
+@use '../styles/variables' as *;
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: $bg-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    // ─── Grid ───
+    .splash-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba($accent-primary, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba($accent-primary, 0.04) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: splash-grid-drift 15s linear infinite;
+    }
+
+    // ─── Scanlines ───
+    .splash-scanlines {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.04) 2px,
+                rgba(0, 0, 0, 0.04) 4px);
+        pointer-events: none;
+    }
+
+    // ─── Corner Accents ───
+    .corner-accent {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-color: rgba($accent-primary, 0.3);
+        border-style: solid;
+        border-width: 0;
+
+        &.top-left {
+            top: 30px;
+            left: 30px;
+            border-top-width: 2px;
+            border-left-width: 2px;
+        }
+
+        &.top-right {
+            top: 30px;
+            right: 30px;
+            border-top-width: 2px;
+            border-right-width: 2px;
+        }
+
+        &.bottom-left {
+            bottom: 30px;
+            left: 30px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+        }
+
+        &.bottom-right {
+            bottom: 30px;
+            right: 30px;
+            border-bottom-width: 2px;
+            border-right-width: 2px;
+        }
+    }
+
+    // ─── Content ───
+    .splash-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .splash-logo {
+        .logo-icon {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, $accent-primary, $accent-secondary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba($accent-primary, 0.5));
+            display: block;
+            line-height: 1;
+        }
+    }
+
+    .splash-brand {
+        font-family: $font-oswald;
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: $text-white;
+        letter-spacing: 10px;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .splash-tagline {
+        font-family: $font-general;
+        font-size: 0.8rem;
+        color: $text-muted;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    // ─── Progress ───
+    .splash-progress {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+
+        .progress-track {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            overflow: hidden;
+
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, $accent-primary, $accent-secondary);
+                border-radius: 3px;
+                transition: width 0.12s ease-out;
+                box-shadow: 0 0 8px rgba($accent-primary, 0.5);
+            }
+        }
+
+        .progress-text {
+            font-family: $font-oswald;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+        }
+    }
+}
+
+@keyframes splash-grid-drift {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
+}

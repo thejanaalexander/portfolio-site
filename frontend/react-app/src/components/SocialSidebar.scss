@@ -1,0 +1,57 @@
+@use '../styles/variables' as *;
+
+.social-sidebar {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+
+    // Decorative lines
+    .social-line {
+        width: 2px;
+        height: 40px;
+        background: linear-gradient(to bottom, transparent, rgba($accent-primary, 0.4), transparent);
+        border-radius: 2px;
+
+        &.top {
+            background: linear-gradient(to bottom, transparent, rgba($accent-primary, 0.4));
+        }
+
+        &.bottom {
+            background: linear-gradient(to bottom, rgba($accent-primary, 0.4), transparent);
+        }
+    }
+
+    .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(8px);
+
+        &:hover {
+            color: var(--hover-color);
+            border-color: var(--hover-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px color-mix(in srgb, var(--hover-color) 30%, transparent);
+        }
+    }
+
+    // Hide on mobile
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
