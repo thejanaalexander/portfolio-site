@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Portfolio website with React frontend and Express backend",
     "scripts": {
-        "install:all": "cd backend && npm install && cd ../frontend/react-app && npm install --legacy-peer-deps",
+        "install:all": "cd backend && npm install && cd ../frontend/react-app && npm install --legacy-peer-deps --include=dev",
         "build:frontend": "cd frontend/react-app && npm run build",
         "copy:build": "node -e \"const fs=require('fs');const path=require('path');function copyDir(s,d){fs.mkdirSync(d,{recursive:true});for(const e of fs.readdirSync(s,{withFileTypes:true})){const sp=path.join(s,e.name),dp=path.join(d,e.name);e.isDirectory()?copyDir(sp,dp):fs.copyFileSync(sp,dp)}}copyDir('frontend/react-app/dist','backend/client')\"",
         "build": "npm run build:frontend && npm run copy:build",
