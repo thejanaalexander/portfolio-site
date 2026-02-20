@@ -6,6 +6,7 @@ const fs = require('fs');
 const { initDB, Project } = require('./database');
 
 const jwt = require('jsonwebtoken');
+const compression = require('compression');
 require('dotenv').config();
 
 // Config from environment variables
@@ -15,6 +16,9 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Gzip compression — reduces response size by ~60-80%
+app.use(compression());
+
 // Middleware
 const allowedOrigins = process.env.CORS_ORIGIN || '*';
 app.use(cors({
@@ -22,7 +26,11 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Static files with cache headers
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+    maxAge: '7d' // Cache uploaded images for 7 days
+}));
 
 // Ensure uploads directory exists
 const uploadDir = path.join(__dirname, 'uploads');
@@ -537,7 +545,14 @@ app.get('/api/analytics', verifyToken, async (req, res) => {
 // --- PRODUCTION: Serve React Frontend ---
 if (process.env.NODE_ENV === 'production') {
     const clientBuildPath = path.join(__dirname, 'client');
-    app.use(express.static(clientBuildPath));
+    // Vite assets have hashed filenames — cache for 1 year
+    app.use('/assets', express.static(path.join(clientBuildPath, 'assets'), {
+        maxAge: '365d',
+        immutable: true
+    }));
+    app.use(express.static(clientBuildPath, {
+        maxAge: '1d' // HTML and other files: 1 day
+    }));
 
     // All non-API routes → React app (client-side routing)
     app.get('{*path}', (req, res) => {

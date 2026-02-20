@@ -1,24 +1,48 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
-import CustomCursor from './components/CustomCursor';
-import PageTransition from './components/PageTransition';
 import SplashScreen from './components/SplashScreen';
-import SocialSidebar from './components/SocialSidebar';
-import BackToTop from './components/BackToTop';
 import SEO from './components/SEO';
-import Home from './pages/Home';
-import PortfolioPage from './pages/PortfolioPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import AdminPage from './pages/AdminPage';
-import LoginPage from './pages/LoginPage';
-import NotFoundPage from './pages/NotFoundPage';
-import RequireAuth from './components/RequireAuth';
-import Footer from './components/Footer';
 import BackgroundEffect from './components/BackgroundEffect';
 import './App.scss';
+
+// Lazy load non-critical components
+const CustomCursor = lazy(() => import('./components/CustomCursor'));
+const SocialSidebar = lazy(() => import('./components/SocialSidebar'));
+const BackToTop = lazy(() => import('./components/BackToTop'));
+const Footer = lazy(() => import('./components/Footer'));
+
+// Lazy load page components (code splitting per route)
+const PageTransition = lazy(() => import('./components/PageTransition'));
+const Home = lazy(() => import('./pages/Home'));
+const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const RequireAuth = lazy(() => import('./components/RequireAuth'));
+
+// Minimal loading fallback
+const PageLoader = () => (
+  <div style={{
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'transparent'
+  }}>
+    <div style={{
+      width: '40px',
+      height: '40px',
+      border: '3px solid rgba(255,255,255,0.1)',
+      borderTop: '3px solid #d628d9',
+      borderRadius: '50%',
+      animation: 'spin 0.8s linear infinite'
+    }} />
+  </div>
+);
 
 function App() {
   const location = useLocation();
@@ -43,32 +67,36 @@ function App() {
     <div className="app-container">
       <SEO />
       <BackgroundEffect />
-      <CustomCursor />
+      <Suspense fallback={null}>
+        <CustomCursor />
+        <SocialSidebar />
+        <BackToTop />
+      </Suspense>
       <Header />
-      <SocialSidebar />
-      <BackToTop />
       <main className={['/portfolio', '/admin', '/login', '/contact'].includes(location.pathname) || !['/', '/about', '/portfolio', '/contact', '/login', '/admin'].includes(location.pathname) ? 'no-snap' : ''}>
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-            <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
-            <Route path="/portfolio" element={<PageTransition><PortfolioPage /></PageTransition>} />
-            <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-            <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
-            <Route
-              path="/admin"
-              element={
-                <PageTransition>
-                  <RequireAuth>
-                    <AdminPage />
-                  </RequireAuth>
-                </PageTransition>
-              }
-            />
-            <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
-          </Routes>
-        </AnimatePresence>
-        <Footer />
+        <Suspense fallback={<PageLoader />}>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+              <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
+              <Route path="/portfolio" element={<PageTransition><PortfolioPage /></PageTransition>} />
+              <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+              <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+              <Route
+                path="/admin"
+                element={
+                  <PageTransition>
+                    <RequireAuth>
+                      <AdminPage />
+                    </RequireAuth>
+                  </PageTransition>
+                }
+              />
+              <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
+            </Routes>
+          </AnimatePresence>
+          <Footer />
+        </Suspense>
       </main>
     </div>
   );
