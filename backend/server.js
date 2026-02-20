@@ -540,7 +540,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(clientBuildPath));
 
     // All non-API routes → React app (client-side routing)
-    app.get('*', (req, res) => {
+    app.get('{*path}', (req, res) => {
         res.sendFile(path.join(clientBuildPath, 'index.html'));
     });
 }
