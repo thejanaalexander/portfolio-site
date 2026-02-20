@@ -1,12 +1,29 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
 
-// Initialize Sequelize with SQLite
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(__dirname, 'database.sqlite'),
-    logging: false // Disable logging for cleaner console
-});
+// Initialize Sequelize — use PostgreSQL in production, SQLite locally
+let sequelize;
+
+if (process.env.DATABASE_URL) {
+    // Production: PostgreSQL on Render
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+        logging: false
+    });
+} else {
+    // Local development: SQLite (no setup needed)
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        storage: path.join(__dirname, 'database.sqlite'),
+        logging: false
+    });
+}
 
 // Define Project Model
 const Project = sequelize.define('Project', {
@@ -69,7 +86,7 @@ const initDB = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
-        await sequelize.sync({ alter: true }); // Creates tables if they don't exist, alerts if they do
+        await sequelize.sync({ alter: true }); // Creates tables if they don't exist, alters if they do
         console.log('Database synced.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
