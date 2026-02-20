@@ -1,12 +1,14 @@
 @import '../styles/variables';
 
 .portfolio-page {
-    background-color: $bg-primary;
+    background-color: transparent;
     color: $text-white;
     min-height: 100vh;
     padding-top: 120px; // Clear fixed header
     padding-bottom: 5rem;
     font-family: $font-general;
+    position: relative;
+    z-index: 1;
 
     /* 1. Header Area */
     .portfolio-header {
