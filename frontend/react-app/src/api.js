@@ -1,8 +1,8 @@
 import axios from 'axios';
 // Axios instance for API requests
 
-// In production, API is served from the same origin (relative path)
-// In development, use the local backend URL
+// In production (InfinityFree), API is at /api on the same domain
+// In development, use the local PHP server URL
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({

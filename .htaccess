@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Don't rewrite requests for real files or directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Don't rewrite /api/ requests (handled by api/.htaccess)
+RewriteCond %{REQUEST_URI} !^/api/
+
+# Rewrite everything else to index.html (React SPA routing)
+RewriteRule ^(.*)$ /index.html [QSA,L]
