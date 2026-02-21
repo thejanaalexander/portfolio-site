@@ -154,12 +154,12 @@ app.post('/api/projects', verifyToken, upload.fields([{ name: 'image', maxCount:
 
         let imagePath = null;
         if (req.files['image']) {
-            imagePath = `http://localhost:${PORT}/uploads/${req.files['image'][0].filename}`;
+            imagePath = `/uploads/${req.files['image'][0].filename}`;
         }
 
         let galleryPaths = [];
         if (req.files['gallery']) {
-            galleryPaths = req.files['gallery'].map(file => `http://localhost:${PORT}/uploads/${file.filename}`);
+            galleryPaths = req.files['gallery'].map(file => `/uploads/${file.filename}`);
         }
 
         const newProject = await Project.create({
@@ -191,12 +191,12 @@ app.put('/api/projects/:id', verifyToken, upload.fields([{ name: 'image', maxCou
         let imagePath = project.image;
         if (req.files['image']) {
             // TODO: Delete old image
-            imagePath = `http://localhost:${PORT}/uploads/${req.files['image'][0].filename}`;
+            imagePath = `/uploads/${req.files['image'][0].filename}`;
         }
 
         let galleryPaths = project.gallery;
         if (req.files['gallery']) {
-            const newPaths = req.files['gallery'].map(file => `http://localhost:${PORT}/uploads/${file.filename}`);
+            const newPaths = req.files['gallery'].map(file => `/uploads/${file.filename}`);
             galleryPaths = [...galleryPaths, ...newPaths];
         }
 
@@ -252,7 +252,7 @@ app.post('/api/testimonials', verifyToken, upload.single('image'), async (req, r
 
         let imagePath = null;
         if (req.file) {
-            imagePath = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+            imagePath = `/uploads/${req.file.filename}`;
         }
 
         const newTestimonial = await Testimonial.create({
@@ -281,7 +281,7 @@ app.put('/api/testimonials/:id', verifyToken, upload.single('image'), async (req
 
         let imagePath = testimonial.image;
         if (req.file) {
-            imagePath = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+            imagePath = `/uploads/${req.file.filename}`;
         }
 
         await testimonial.update({
